@@ -61,4 +61,64 @@ class HomeController extends AbstractController
         }
         return $this->json($response);
     }
+
+    /**
+     * @Route("/recipe/find/{id}", name="fetch_a_recipe",methods={"GET"})
+     */
+
+    public function findRecipe($id): Response
+    {
+        $recipe=$this->getDoctrine()->getRepository(Recipe::class)->find($id);
+        if(!$recipe){
+            throw $this->createNotFoundException(
+                'nothing for '. $id
+            );
+        }else{
+            return $this->json([
+                'id'=>$recipe->getId(),
+                'name'=>$recipe->getName(),
+                'ingredients'=>$recipe->getIngredients()
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/recipe/edit/{id}/{name}", name="edit_a_recipe",methods={"PUT"})
+     */
+
+    public function editRecipe($id, $name): Response
+    {
+        $entityManager=$this->getDoctrine()->getManager();
+        $recipe=$this->getDoctrine()->getRepository(Recipe::class)->find($id);
+        if(!$recipe){
+            throw $this->createNotFoundException(
+                'nothing for '. $id
+            );
+        }else{
+            $recipe->setName($name);
+            $entityManager->flush();
+        }
+    }
+
+    /**
+     * @Route("/recipe/remove/{id}", name="remove_a_recipe",methods={"GET"})
+     */
+
+    public function removeRecipe($id): Response
+    {
+        $entityManager=$this->getDoctrine()->getManager();
+        $recipe=$this->getDoctrine()->getRepository(Recipe::class)->find($id);
+        if(!$recipe){
+            throw $this->createNotFoundException(
+                'nothing for '. $id
+            );
+        }else{
+            $entityManager->remove($recipe);
+            $entityManager->flush();
+
+            return $this->json([
+                'message'=>'removed id' .$id
+            ]);
+        }
+    }
 }
