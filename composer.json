@@ -19,7 +19,8 @@
         "symfony/framework-bundle": "5.2.*",
         "symfony/maker-bundle": "^1.30",
         "symfony/proxy-manager-bridge": "5.2.*",
-        "symfony/yaml": "5.2.*"
+        "symfony/yaml": "5.2.*",
+        "ext-pdo_sqlite": "*"
     },
     "config": {
         "optimize-autoloader": true,
