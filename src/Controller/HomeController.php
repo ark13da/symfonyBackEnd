@@ -101,7 +101,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/recipe/remove/{id}", name="remove_a_recipe",methods={"GET"})
+     * @Route("/recipe/remove/{id}", name="remove_a_recipe",methods={"DELETE"})
      */
 
     public function removeRecipe($id): Response
